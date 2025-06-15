@@ -204,6 +204,17 @@ store.rocksdb.type = "rocksdb"
 http.use-x-forwarded = true
 ```
 
+#### SMTP
+
+- Arc -> Arc Sealing -> Change `'rsa-' + config_get('report.domain')` to `'ed25519-' + config_get('report.domain')`
+    - Add:
+
+```
+auth.arc.seal = "'ed25519-' + config_get('report.domain')"
+auth.arc.verify = "relaxed"
+```
+
+
 ### Spam filter
 
 - Reputation -> Enable Reputation tracking
@@ -218,4 +229,28 @@ spam-filter.reputation.weight.asn = 0.1
 spam-filter.reputation.weight.domain = 0.2
 spam-filter.reputation.weight.ip = 0.2
 spam-filter.reputation.weight.sender = 0.5
+```
+
+- Bayes classfier -> Enable user-specific Bayes classification
+
+    - Add
+
+```
+spam-filter.bayes.account.enable = true
+spam-filter.bayes.account.score.ham = 0.5
+spam-filter.bayes.account.score.spam = 0.7
+spam-filter.bayes.auto-learn.card-is-ham = true
+spam-filter.bayes.auto-learn.enable = true
+spam-filter.bayes.auto-learn.threshold.ham = -1.0
+spam-filter.bayes.auto-learn.threshold.spam = 6.0
+spam-filter.bayes.classify.balance = 0.9
+spam-filter.bayes.classify.learns = 200
+spam-filter.bayes.classify.strength = 0.05
+spam-filter.bayes.classify.tokens.hits = 2
+spam-filter.bayes.classify.tokens.min = 11
+spam-filter.bayes.enable = true
+spam-filter.bayes.score.ham = 0.5
+spam-filter.bayes.score.spam = 0.7
+spam-filter.header.bayes.enable = true
+spam-filter.header.bayes.name = "X-Spam-Bayes"
 ```
