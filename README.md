@@ -22,13 +22,23 @@ sudo certbot certonly \
     -d mail.yourdomain.tld
 ```
 
-- Add `/etc/nginx/conf.d/stalwart.conf`:
+```bash
+sudo certbot certonly \
+    --webroot --webroot-path /srv/nginx \
+    --no-eff-email \
+    --key-type ecdsa \
+    --reuse-key \
+    --deploy-hook "nginx -s reload" \
+    -d mta-sts.yourdomain.tld
+```
+
+- Add `/etc/nginx/conf.d/default-quic.conf`:
 
 ```
 server {
-    listen 443 quic;
+    listen 443 quic reuseport;
     listen 443 ssl;
-    listen [::]:443 quic;
+    listen [::]:443 quic reuseport;
     listen [::]:443 ssl;
 
     server_name mail.yourdomain.tld;
@@ -45,6 +55,38 @@ server {
     include snippets/universal_paths.conf;
 
     add_header Content-Security-Policy "default-src 'none'; connect-src 'self'; img-src 'self'; manifest-src 'self'; script-src 'unsafe-eval'; script-src-elem 'self' 'unsafe-inline'; style-src-elem 'self'; form-action 'none'; frame-ancestors 'none'; block-all-mixed-content; base-uri 'none'";
+
+    proxy_ssl_name mail.yourdomain.tld;
+
+    location / {
+        proxy_pass https://127.0.0.1:8443;
+    }
+}
+```
+
+Add `/etc/nginx/conf.d/mta-sts.conf`:
+
+```
+server {
+    listen 443 quic;
+    listen 443 ssl;
+    listen [::]:443 quic;
+    listen [::]:443 ssl;
+
+    server_name mta-sts.yourdomain.tld;
+
+    ssl_certificate /etc/letsencrypt/live/mta-sts.yourdomain.tld/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/mta-sts.yourdomain.tld/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/mta-sts.yourdomain.tld/chain.pem;
+
+    include snippets/security.conf;
+    include snippets/cross-origin-security.conf;
+    include snippets/quic.conf;
+    include snippets/proxy.conf;
+    include snippets/robots.conf;
+    include snippets/universal_paths.conf;
+
+    add_header Content-Security-Policy "default-src 'none'";
 
     proxy_ssl_name mail.yourdomain.tld;
 
