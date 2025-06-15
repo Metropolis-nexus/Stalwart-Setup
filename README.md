@@ -148,7 +148,7 @@ server.listener.submissions.tls.implicit = true
 
 - Storage -> Stores -> Add PostgreSQL
 
-These should be added:
+    - Add:
 
 ```
 store.postgresql.compression = "lz4"
@@ -168,7 +168,7 @@ store.postgresql.user = "stalwart"
 
 - Storage -> Settings -> Change all data stores to PostgreSQL, Enable encryption at rest & Encrypt on append
 
-These should change over from RocksDB:
+    -  Change over from RocksDB:
 
 ```
 storage.blob = "postgresql"
@@ -177,7 +177,7 @@ storage.fts = "postgresql"
 storage.lookup = "postgresql"
 ```
 
-Adjust:
+    - Adjust:
 
 ```
 email.encryption.append = true
@@ -186,7 +186,7 @@ email.encryption.enable = true
 
 - Authentication -> Directories -> Change "internal"'s backend from RocksDB to PostgreSQL
 
-Adjust:
+    - Change over from RocksDB:
 
 ```
 directory.internal.store = "postgresql"
@@ -194,7 +194,7 @@ directory.internal.store = "postgresql"
 
 - Storage -> Stores -> Delete RocksDB
 
-Remove:
+    - Remove:
 
 ```
 store.rocksdb.compression = "lz4"
