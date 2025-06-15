@@ -80,13 +80,13 @@ This means that it isn't reading new configs in `config.toml` just yet.
 - System
     - Save & Reload without any change
     - Change `store.*` to `*`. Delete the of the local settings. Hit "Save & Reload" again
-- Click on listeners. Then click on system again. You may see that the local settings get repopulated below `*`. Delete all of them and hit "Save & Reload" yet again.
+- Click on listeners. Then click on system again. You may see that the local settings got repopulated below `*`. Delete all of them and hit "Save & Reload" yet again.
 
 Your `config.toml` should now look like this:
 
 ![Config2](Config2.png)
 
-This means that it will start reading from/writing to `config.toml` properly.
+This means that it will start reading from and writing to `config.toml` properly.
 
 - Add the following at the end of `/srv/stalwart/stalwart/etc/config.toml`:
 
@@ -107,10 +107,97 @@ Stalwart should load with the correct certitificate:
 
 ![Stalwart Login](Stalwart-Login.png)
 
-Change `PublishPort=443:443` back to `PublishPort=127.0.0.1:8443:443` in `/etc/systemd/containers/stalwart.container`.
+- Change `PublishPort=443:443` back to `PublishPort=127.0.0.1:8443:443` in `/etc/systemd/containers/stalwart.container`, then run:
 
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl restart stalwart
 sudo systemctl start nginx
+```
+
+## Configure Stalwart
+
+- Top right -> Account -> Change password
+- Restart Stalwart
+
+### Listeners
+
+Remove all unnecessary listeners (http, unencrypted IMAP, all POP3, Sieve).
+
+The resulting configuration should look like this:
+
+![Listeners](/Listeners.png)
+
+```
+server.listener.https.bind = "[::]:443"
+server.listener.https.protocol = "http"
+server.listener.https.tls.implicit = true
+server.listener.imaptls.bind = "[::]:993"
+server.listener.imaptls.protocol = "imap"
+server.listener.imaptls.tls.implicit = true
+server.listener.smtp.bind = "[::]:25"
+server.listener.smtp.protocol = "smtp"
+server.listener.submission.bind = "[::]:587"
+server.listener.submission.protocol = "smtp"
+server.listener.submissions.bind = "[::]:465"
+server.listener.submissions.protocol = "smtp"
+server.listener.submissions.tls.implicit = true
+```
+
+### Storage
+
+- Storage -> Stores -> Add PostgreSQL
+
+These should be added:
+
+```
+store.postgresql.compression = "lz4"
+store.postgresql.database = "stalwart"
+store.postgresql.host = "stalwart-postgres"
+store.postgresql.password = "REDACTED"
+store.postgresql.pool.max-connections = 10
+store.postgresql.port = 5432
+store.postgresql.purge.frequency = "0 3 *"
+store.postgresql.read-from-replicas = true
+store.postgresql.timeout = "15s"
+store.postgresql.tls.allow-invalid-certs = false
+store.postgresql.tls.enable = false
+store.postgresql.type = "postgresql"
+store.postgresql.user = "stalwart"
+```
+
+- Storage -> Settings -> Change all data stores to PostgreSQL, Enable encryption at rest & Encrypt on append
+
+These should change over from RocksDB:
+
+```
+storage.blob = "postgresql"
+storage.data = "postgresql"
+storage.fts = "postgresql"
+storage.lookup = "postgresql"
+```
+
+Adjust:
+
+```
+email.encryption.append = true
+email.encryption.enable = true
+```
+
+- Authentication -> Directories -> Change "internal"'s backend from RocksDB to PostgreSQL
+
+Adjust:
+
+```
+directory.internal.store = "postgresql"
+```
+
+- Storage -> Stores -> Delete RocksDB
+
+Remove:
+
+```
+store.rocksdb.compression = "lz4"
+store.rocksdb.path = "/opt/stalwart/data"
+store.rocksdb.type = "rocksdb"
 ```
