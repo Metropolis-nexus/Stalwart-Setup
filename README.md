@@ -112,9 +112,82 @@ sudo systemctl enable --now stalwart.target
 sudo systemctl status stalwart
 ```
 
-At this point, your `config.toml` should look like this:
+At this point, your `config.toml` should look somewhat like this:
 
-![Config1](Config1.png)
+```
+[server.listener.smtp]
+bind = "[::]:25"
+protocol = "smtp"
+
+[server.listener.submission]
+bind = "[::]:587"
+protocol = "smtp"
+
+[server.listener.submissions]
+bind = "[::]:465"
+protocol = "smtp"
+tls.implicit = true
+
+[server.listener.imap]
+bind = "[::]:143"
+protocol = "imap"
+
+[server.listener.imaptls]
+bind = "[::]:993"
+protocol = "imap"
+tls.implicit = true
+
+[server.listener.pop3]
+bind = "[::]:110"
+protocol = "pop3"
+
+[server.listener.pop3s]
+bind = "[::]:995"
+protocol = "pop3"
+tls.implicit = true
+
+[server.listener.sieve]
+bind = "[::]:4190"
+protocol = "managesieve"
+
+[server.listener.https]
+protocol = "http"
+bind = "[::]:443"
+tls.implicit = true
+
+[server.listener.http]
+protocol = "http"
+bind = "[::]:8080"
+
+[storage]
+data = "rocksdb"
+fts = "rocksdb"
+blob = "rocksdb"
+lookup = "rocksdb"
+directory = "internal"
+
+[store.rocksdb]
+type = "rocksdb"
+path = "/opt/stalwart/data"
+compression = "lz4"
+
+[directory.internal]
+type = "internal"
+store = "rocksdb"
+
+[tracer.log]
+type = "log"
+level = "info"
+path = "/opt/stalwart/logs"
+prefix = "stalwart.log"
+rotate = "daily"
+ansi = false
+enable = true
+
+[authentication.fallback-admin]
+user = "admin"
+secret = "REDACTED"
+```
 
 This means that it isn't reading new configs in `config.toml` just yet.
 
@@ -128,7 +201,58 @@ This means that it isn't reading new configs in `config.toml` just yet.
 
 Your `config.toml` should now look like this:
 
-![Config2](Config2.png)
+```
+authentication.fallback-admin.secret = "REDACTED"
+authentication.fallback-admin.user = "admin"
+config.local-keys = "*"
+directory.internal.store = "rocksdb"
+directory.internal.type = "internal"
+server.hostname = "mail.yourdomain.tld"
+server.listener.http.bind = "[::]:8080"
+server.listener.http.protocol = "http"
+server.listener.https.bind = "[::]:443"
+server.listener.https.protocol = "http"
+server.listener.https.tls.implicit = true
+server.listener.imap.bind = "[::]:143"
+server.listener.imap.protocol = "imap"
+server.listener.imaptls.bind = "[::]:993"
+server.listener.imaptls.protocol = "imap"
+server.listener.imaptls.tls.implicit = true
+server.listener.pop3.bind = "[::]:110"
+server.listener.pop3.protocol = "pop3"
+server.listener.pop3s.bind = "[::]:995"
+server.listener.pop3s.protocol = "pop3"
+server.listener.pop3s.tls.implicit = true
+server.listener.sieve.bind = "[::]:4190"
+server.listener.sieve.protocol = "managesieve"
+server.listener.smtp.bind = "[::]:25"
+server.listener.smtp.protocol = "smtp"
+server.listener.submission.bind = "[::]:587"
+server.listener.submission.protocol = "smtp"
+server.listener.submissions.bind = "[::]:465"
+server.listener.submissions.protocol = "smtp"
+server.listener.submissions.tls.implicit = true
+server.max-connections = 8192
+server.socket.backlog = 1024
+server.socket.nodelay = true
+server.socket.reuse-addr = true
+server.socket.reuse-port = true
+storage.blob = "rocksdb"
+storage.data = "rocksdb"
+storage.directory = "internal"
+storage.fts = "rocksdb"
+storage.lookup = "rocksdb"
+store.rocksdb.compression = "lz4"
+store.rocksdb.path = "/opt/stalwart/data"
+store.rocksdb.type = "rocksdb"
+tracer.log.ansi = false
+tracer.log.enable = true
+tracer.log.level = "info"
+tracer.log.path = "/opt/stalwart/logs"
+tracer.log.prefix = "stalwart.log"
+tracer.log.rotate = "daily"
+tracer.log.type = "log"
+```
 
 This means that it will start reading from and writing to `config.toml` properly.
 
