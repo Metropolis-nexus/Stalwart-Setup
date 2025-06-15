@@ -100,7 +100,7 @@ server {
 
 - Copy the appropriate Stalwart related files onto your system from [Quadlet-Files](https://github.com/Metropolis-nexus/Quadlet-Files).
 
-**Note**: As of this writing (06/06/2026), the initial setup is a bit janky, but you need to follow it to make Stalwart read from the local configuratio properly. Modifying `/srv/stalwart/stalwart/etc/config.toml` from the get-go will not work.
+**Note**: As of this writing (06/15/2026), the initial setup is a bit janky, but you need to follow it to make Stalwart read from the local configuratio properly. Modifying `/srv/stalwart/stalwart/etc/config.toml` from the get-go will not work.
 
 - Change `PublishPort=127.0.0.1:8443:443` to `PublishPort=443:443` in `/etc/systemd/containers/stalwart.container`
 
