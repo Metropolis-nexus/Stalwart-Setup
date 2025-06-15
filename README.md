@@ -147,7 +147,6 @@ server.listener.submissions.tls.implicit = true
 ### Storage
 
 - Storage -> Stores -> Add PostgreSQL
-
     - Add:
 
 ```
@@ -167,25 +166,18 @@ store.postgresql.user = "stalwart"
 ```
 
 - Storage -> Settings -> Change all data stores to PostgreSQL, Enable encryption at rest & Encrypt on append
-
-    -  Change over from RocksDB:
+    -  Change over from RocksDB & adjust:
 
 ```
+email.encryption.append = true
+email.encryption.enable = true
 storage.blob = "postgresql"
 storage.data = "postgresql"
 storage.fts = "postgresql"
 storage.lookup = "postgresql"
 ```
 
-    - Adjust:
-
-```
-email.encryption.append = true
-email.encryption.enable = true
-```
-
 - Authentication -> Directories -> Change "internal"'s backend from RocksDB to PostgreSQL
-
     - Change over from RocksDB:
 
 ```
@@ -193,11 +185,35 @@ directory.internal.store = "postgresql"
 ```
 
 - Storage -> Stores -> Delete RocksDB
-
     - Remove:
 
 ```
 store.rocksdb.compression = "lz4"
 store.rocksdb.path = "/opt/stalwart/data"
 store.rocksdb.type = "rocksdb"
+```
+
+### HTTP
+
+- Settings -> HTTP Headers -> Obtain remote IP from Forwarded header
+    - Add:
+
+```
+http.use-x-forwarded = true
+```
+
+### Spam filter
+
+- Reputation -> Enable Reputation tracking
+    - Add: 
+
+```
+spam-filter.reputation.enable = true
+spam-filter.reputation.expiry = "30d"
+spam-filter.reputation.factor = 0.5
+spam-filter.reputation.score = 0.98
+spam-filter.reputation.weight.asn = 0.1
+spam-filter.reputation.weight.domain = 0.2
+spam-filter.reputation.weight.ip = 0.2
+spam-filter.reputation.weight.sender = 0.5
 ```
