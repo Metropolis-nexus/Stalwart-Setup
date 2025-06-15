@@ -44,6 +44,8 @@ server {
     include snippets/robots.conf;
     include snippets/universal_paths.conf;
 
+    add_header Content-Security-Policy "default-src 'none'; connect-src 'self'; img-src 'self'; manifest-src 'self'; script-src 'unsafe-eval'; script-src-elem 'self' 'unsafe-inline'; style-src-elem 'self'; form-action 'none'; frame-ancestors 'none'; block-all-mixed-content; base-uri 'none'";
+
     proxy_ssl_name mail.yourdomain.tld;
 
     location / {
