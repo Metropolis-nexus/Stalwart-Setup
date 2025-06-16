@@ -372,6 +372,14 @@ http.use-x-forwarded = true
 
 #### SMTP
 
+- Inbound -> MTA-STS Policy -> Policy Application -> Enforce
+    - Add:
+
+```
+session.mta-sts.max-age = "7d"
+session.mta-sts.mode = "enforce"
+```
+
 - Arc -> Arc Sealing -> Change `'rsa-' + config_get('report.domain')` to `'ed25519-' + config_get('report.domain')`
     - Add:
 
@@ -379,7 +387,6 @@ http.use-x-forwarded = true
 auth.arc.seal = "'ed25519-' + config_get('report.domain')"
 auth.arc.verify = "relaxed"
 ```
-
 
 ### Spam filter
 
