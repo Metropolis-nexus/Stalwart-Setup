@@ -420,3 +420,15 @@ spam-filter.bayes.score.spam = 0.7
 spam-filter.header.bayes.enable = true
 spam-filter.header.bayes.name = "X-Spam-Bayes"
 ```
+
+## Manage Stalwart
+
+### System role
+
+We will make a new role for system services, where they can only send email but cannot recieve emails or access the web UI.
+
+- Create new user role
+- Enable "Authenticate" and "Send Mail" in permission settings
+
+![System Role 1](System-Role-1.png)
+![System Role 2](System-Role-2.png)
