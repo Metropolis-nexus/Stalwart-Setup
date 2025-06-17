@@ -61,7 +61,7 @@ server {
 
 - Copy the appropriate Stalwart related files onto your system from [Quadlet-Files](https://github.com/Metropolis-nexus/Quadlet-Files).
 
-**Note**: As of this writing (06/15/2026), the initial setup is a bit janky, but you need to follow it to make Stalwart read from the local configuratio properly. Modifying `/srv/stalwart/stalwart/etc/config.toml` from the get-go will not work.
+**Note**: As of this writing (06/15/2026), the initial setup is a bit janky, but you need to follow it to make Stalwart read from the local configuration properly. Modifying `/srv/stalwart/stalwart/etc/config.toml` from the get-go will not work.
 
 - Change `PublishPort=127.0.0.1:8443:443` to `PublishPort=443:443` in `/etc/systemd/containers/stalwart.container`
 
@@ -73,7 +73,7 @@ sudo systemctl enable --now stalwart.target
 sudo systemctl status stalwart
 ```
 
-At this point, your `config.toml` should look somewhat like this:
+At this point, your `config.toml` file should look somewhat like this:
 
 ```
 [server.listener.smtp]
@@ -150,17 +150,17 @@ user = "admin"
 secret = "REDACTED"
 ```
 
-This means that it isn't reading new configs in `config.toml` just yet.
+This means that Stalwart isn't reading new configs in `config.toml` just yet.
 
 - Log into the web UI with your password
 - Hit Settings on the left sidebar
-- Network -> Set the hostname -> Save & Reload
+- Network -> Set the hostname -> Hit "Save & Reload"
 - System
-    - Save & Reload without any change
-    - Change `store.*` to `*`. Delete the of the local settings. Hit "Save & Reload" again
-- Click on listeners. Then click on system again. You may see that the local settings got repopulated below `*`. Delete all of them and hit "Save & Reload" yet again.
+    - Hit "Save & Reload" without any change
+    - Change `store.*` to `*`. Delete all of the other local settings. Hit "Save & Reload" again
+- Click on Listeners. Then click on System again. You may see that the local settings got repopulated below `*`. Delete all of them and hit "Save & Reload" yet again
 
-Your `config.toml` should now look like this:
+Your `config.toml` file should now look like this:
 
 ```
 authentication.fallback-admin.secret = "REDACTED"
@@ -215,15 +215,15 @@ tracer.log.rotate = "daily"
 tracer.log.type = "log"
 ```
 
-This means that it will start reading from and writing to `config.toml` properly.
+This means that it will start reading from and writing to the `config.toml` file properly.
 
 - Add the following at the end of `/srv/stalwart/stalwart/etc/config.toml`:
 
 ```
-certificate.LetsEncrypt.cert = "%{file:/etc/letsencrypt/live/mail.yourdomain.tld/fullchain.pem}%"
-certificate.LetsEncrypt.default = true
-certificate.LetsEncrypt.private-key = "%{file:/etc/letsencrypt/live/mail.yourdomain.tld/privkey.pem}%"
-certificate.LetsEncrypt.subjects = "mail.yourdomain.tld"
+certificate.letsencrypt.cert = "%{file:/etc/letsencrypt/live/mail.yourdomain.tld/fullchain.pem}%"
+certificate.letsencrypt.default = true
+certificate.letsencrypt.private-key = "%{file:/etc/letsencrypt/live/mail.yourdomain.tld/privkey.pem}%"
+certificate.letsencrypt.subjects = "mail.yourdomain.tld"
 ```
 
 - Restart Stalwart:
@@ -339,6 +339,13 @@ http.use-x-forwarded = true
 ```
 session.mta-sts.max-age = "7d"
 session.mta-sts.mode = "enforce"
+```
+
+- Outbound -> Allow Invalid Certs -> Delete "retry_num > 0 && last_error == 'tls' -> true" condition.
+    - Add:
+
+```
+queue.outbound.tls.allow-invalid-certs = false
 ```
 
 - Arc -> Arc Sealing -> Change `'rsa-' + config_get('report.domain')` to `'ed25519-' + config_get('report.domain')`
