@@ -348,18 +348,6 @@ session.mta-sts.mode = "enforce"
 queue.outbound.tls.allow-invalid-certs = false
 ```
 
-- Outbound -> DNS -> Resolver -> Cloudflare DNS (TLS)
-    - Add:
-
-```
-resolver.attempts = 2
-resolver.concurrency = 2
-resolver.preserve-intermediates = true
-resolver.timeout = "5s"
-resolver.try-tcp-on-error = true
-resolver.type = "cloudflare-tls"
-```
-
 - Arc -> Arc Sealing -> Change `'rsa-' + config_get('report.domain')` to `'ed25519-' + config_get('report.domain')`
     - Add:
 
