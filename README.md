@@ -359,7 +359,7 @@ auth.arc.verify = "relaxed"
 
 ### Security
 
-- Allowed IP addresses -> 10.89.0.1 (work around for [this bug](https://github.com/stalwartlabs/stalwart/issues/2121))
+- Allowed IP addresses -> 10.89.0.1 (workaround for [this bug](https://github.com/stalwartlabs/stalwart/issues/2121))
     - Add:
 
 ```
