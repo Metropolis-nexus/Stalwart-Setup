@@ -30,11 +30,9 @@ sudo certbot certonly \
 ```
 server {
     listen 443 quic;
-    listen 443 ssl;
+    listen 443 ssl default_server;
     listen [::]:443 quic;
-    listen [::]:443 ssl;
-
-    server_name mail.yourdomain.tld mta-sts.yourdomain.tld autoconfig.yourdomain.tld autodiscover.yourdomain.tld;
+    listen [::]:443 ssl default_server;
 
     ssl_certificate /etc/letsencrypt/live/mail.yourdomain.tld/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/mail.yourdomain.tld/privkey.pem;
