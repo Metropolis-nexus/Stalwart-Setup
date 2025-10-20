@@ -25,36 +25,7 @@ sudo certbot certonly \
     -d autodiscover.yourdomain.tld
 ```
 
-- Add `/etc/nginx/conf.d/stalwart.conf`:
-
-```
-server {
-    listen 443 quic;
-    listen 443 ssl default_server;
-    listen [::]:443 quic;
-    listen [::]:443 ssl default_server;
-
-    ssl_certificate /etc/letsencrypt/live/mail.yourdomain.tld/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/mail.yourdomain.tld/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/mail.yourdomain.tld/chain.pem;
-
-    include snippets/security.conf;
-    include snippets/permissions.conf;
-    include snippets/cross-origin-security.conf;
-    include snippets/quic.conf;
-    include snippets/proxy.conf;
-    include snippets/robots.conf;
-    include snippets/universal_paths.conf;
-
-    add_header Content-Security-Policy "default-src 'none'; connect-src 'self'; img-src 'self' data:; manifest-src 'self'; script-src 'unsafe-eval'; script-src-elem 'self' 'unsafe-inline'; style-src 'unsafe-inline'; style-src-elem 'self' 'unsafe-inline'; form-action 'none'; frame-ancestors 'none'; block-all-mixed-content; base-uri 'none'";
-
-    proxy_ssl_name mail.yourdomain.tld;
-
-    location / {
-        proxy_pass https://127.0.0.1:8443;
-    }
-}
-```
+- Copy the example configuration files from `/etc/nginx/conf.d/mail.metropolis.nexus` to `/etc/nginx/conf.d/` on your system and adjust them accordingly.
 
 ## Deploy Stalwart
 
