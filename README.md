@@ -326,15 +326,6 @@ auth.arc.seal = "'ed25519-' + config_get('report.domain')"
 auth.arc.verify = "relaxed"
 ```
 
-### Security
-
-- Allowed IP addresses -> 10.89.0.1 (workaround for [this bug](https://github.com/stalwartlabs/stalwart/issues/2121))
-    - Add:
-
-```
-server.allowed-ip.10.89.0.1 = ""
-```
-
 ### Spam filter
 
 - Reputation -> Enable Reputation tracking
