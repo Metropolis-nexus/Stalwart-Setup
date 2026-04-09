@@ -326,6 +326,13 @@ auth.arc.seal = "'ed25519-' + config_get('report.domain')"
 auth.arc.verify = "relaxed"
 ```
 
+### Security
+- Allowed IP -> Add the gateway IP address (192.168.2.1). This is necessary to prevent software from breaking each other with NAT Reflection. Also, various systems send emails to made up addresses @auth.metropolis.nexus, which may be flagged as abuse and get automatically banned.
+
+```
+server.allowed-ip.192.168.2.1 = ""
+```
+
 ### Spam filter
 
 - Reputation -> Enable Reputation tracking
