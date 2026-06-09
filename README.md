@@ -396,7 +396,7 @@ We will make a new role for system services, where they can only send email but 
 
 Spamhaus is one of the worst blacklist providers we have had the displeasure of dealing with. They are condescending, unhelpful, and will refuse to remove you from a blacklist even if they are clearly in the wrong. 
 
-Their process is entirely arbitrary and capricious, and many innocent people get falsely flagged through no fault of their own. Spamhaus is more than happy to blacklist large IP blocks which contain many small subnets owned by entirely unrelated hosting providers. A few abusive customers of one provider can get the entire hosting provider and everyone who share adjecent subnets to be on their banlist. They even blacklist most domains on certain TLDs just for the fun of it too.
+Their process is entirely arbitrary and capricious, and many innocent people get falsely flagged through no fault of their own. Spamhaus is more than happy to blacklist large IP blocks which contain many small subnets owned by entirely unrelated hosting providers. A few abusive customers of one provider can get the entire hosting provider and everyone who share adjecent subnets on their banlist. They even blacklist most domains on certain TLDs just for the fun of it too.
 
 We are not the only one who has had this experience with them:
 - [Judge, Jury, and Wannabe Executioner: The Arrogance of Spamhaus and Why They're Reviled](https://lowendbox.com/blog/judge-jury-and-wannabe-executioner-the-arrogance-of-spamhaus-and-why-theyre-reviled/)
