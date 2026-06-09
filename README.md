@@ -392,7 +392,7 @@ We will make a new role for system services, where they can only send email but 
 ![System Role 1](System-Role-1.png)
 ![System Role 2](System-Role-2.png)
 
-## Spamhaus Notes
+## Spamhaus Note
 
 Spamhaus is one of the worst blacklist providers we have had the displeasure of dealing with. They are condescending, unhelpful, and will refuse to remove you from a blacklist even if they are clearly in the wrong. 
 
