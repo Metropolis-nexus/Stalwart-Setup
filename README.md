@@ -335,6 +335,13 @@ server.allowed-ip.192.168.2.1 = ""
 
 ### Spam filter
 
+- DNS Blocklists -> Remove both Spamhaus domain and IP lists
+    - Add:
+```
+spam-filter.dnsbl.server.stwt_dbl_spamhaus_domain.enable = false
+spam-filter.dnsbl.server.stwt_rbl_spamhaus_ip.enable = false
+```
+
 - Reputation -> Enable Reputation tracking
     - Add: 
 
@@ -384,3 +391,18 @@ We will make a new role for system services, where they can only send email but 
 
 ![System Role 1](System-Role-1.png)
 ![System Role 2](System-Role-2.png)
+
+## Spamhaus Notes
+
+Spamhaus is one of the worst blacklist providers we have had the displeasure of dealing with. They are condescending, unhelpful, and will refuse to remove you from a blacklist even if they are clearly in the wrong. 
+
+Their process is entirely arbitrary and capricious, and many innocent people get falsely flagged through no fault of their own. Spamhaus is more than happy to blacklist large IP blocks which contain many small subnets owned by entirely unrelated hosting providers. A few abusive customers of one provider can get the entire hosting provider and everyone who share adjecent subnets to be on their banlist. They even blacklist most domains on certain TLDs just for the fun of it too.
+
+We are not the only one who has had this experience with them:
+- [Judge, Jury, and Wannabe Executioner: The Arrogance of Spamhaus and Why They're Reviled](https://lowendbox.com/blog/judge-jury-and-wannabe-executioner-the-arrogance-of-spamhaus-and-why-theyre-reviled/)
+- [Spamhaus - Refusing to delist false positives, pompous / rude attitudes](https://lowendtalk.com/discussion/193980/spamhaus-refusing-to-delist-false-positives-pompous-rude-attitudes-whats-your-experience)
+- [Spamhaus Victimization](https://www.webhostingtalk.com/showthread.php?t=1873638)
+- [Spamhaus blocking innocent domain, likely because of .xyz](https://discourse.mailinabox.email/t/after-5-days-my-domain-is-now-listed-on-spamhaus-dbl-and-sem-fresh/11666)
+- [Spamhaus blocks domains based on keywords](https://lowendtalk.com/discussion/194701/til-spamhaus-blocks-domains-based-on-keywords-can-i-still-use-my-domains)
+
+In short, Spamhaus is an overzealous, untrustworthy blocklist run by incompetent people which should be avoided at all cost. They are one of the primary cause as to why self-hosting mail servers is as painful as it is. Do not give the cartel any more of their undeserving power.
