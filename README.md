@@ -405,4 +405,4 @@ We are not the only one who has had this experience with them:
 - [Spamhaus blocking innocent domain, likely because of .xyz](https://discourse.mailinabox.email/t/after-5-days-my-domain-is-now-listed-on-spamhaus-dbl-and-sem-fresh/11666)
 - [Spamhaus blocks domains based on keywords](https://lowendtalk.com/discussion/194701/til-spamhaus-blocks-domains-based-on-keywords-can-i-still-use-my-domains)
 
-In short, Spamhaus is an overzealous, untrustworthy blocklist run by incompetent karens with superiority complexes which should be avoided at all cost. They are one of the primary cause as to why self-hosting mail servers is as painful as it is. Do not give the cartel any more of their undeserving power.
+In short, Spamhaus is an overzealous, untrustworthy blocklist run by incompetent karens with superiority complexes and should be avoided at all costs. They are one of the primary cause as to why self-hosting mail servers is as painful as it is. Do not give the cartel any more of their undeserving power.
